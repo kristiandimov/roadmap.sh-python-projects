@@ -8,6 +8,12 @@ class Task:
         self.__created_at = created_at if created_at is not None else datetime.now().isoformat()
         self.__updated_at = updated_at if updated_at is not None else datetime.now().isoformat()
 
+    def get_id(self) -> int:
+        return self.__id
+    
+    def get_status(self) -> int:
+        return self.__status
+    
     def get_task_name(self) -> str:
         return self.__task_name
  

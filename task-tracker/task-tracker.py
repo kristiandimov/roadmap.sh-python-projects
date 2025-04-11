@@ -4,6 +4,20 @@ from tasklist import *
 
 task_database = TaskList()
 
+def cli_menu():
+    print("""Choose one of following actions:
+    task-cli add "[TASK_NAME]"                  --> Creates a task  
+    task-cli update [TASK_ID] "[DESCIPTION]"    --> Update task by id
+    task-cli delete [TASK_ID]                   --> Delete task by id
+    task-cli mark-in-progress [TASK_ID]         --> Marks task in progress status
+    task-cli mark-done [TASK_ID]                --> Marks task as done
+    task-cli list                               --> Lists all tasks
+    task-cli list done                          --> Lists all done tasks
+    task-cli list todo                          --> Lists all todo tasks
+    task-cli list in-progress                   --> Lists all in-progress tasks
+    (Type 'quit', 'exit', or 'q' to exit.)
+    (Type help, -help, --help, h, -h, --h to exit.)""")
+
 def print_tasks(tasks : TaskList) -> None:
     for task in tasks:
         print(str(task))
@@ -68,9 +82,9 @@ def list_tasks(args: List):
         if not tasks:
             print(f"No tasks found with status: {status}")
         else:
-            print(tasks)
+            print_tasks(tasks)
     else:
-        print(task_database)
+        print_tasks(task_database)
 def mark_status(args: List,new_status):
     if not args:
         print("Usage: update [TASK_ID]")
@@ -97,7 +111,6 @@ def process_commands(command_line: str):
     try:
         #Returns commands splitted for bash commands
         tokens = shlex.split(command_line)
-        print(tokens)
     except Exception as e:
         print(f"Error parsing command {str(e)}")
         return
@@ -120,24 +133,12 @@ def process_commands(command_line: str):
     elif cmd == "mark-in-progress":
         mark_status(params,"in-progress")
     elif cmd == "mark-done":
-        mark_status(params,"done")   
+        mark_status(params,"done")
     else:
         print("Unsuported command ")
     
 def main():
-    print(
-"""Choose one of following actions:
-        task-cli add "[TASK_NAME]"                  --> Creates a task  
-        task-cli update [TASK_ID] "[DESCIPTION]"    --> Update task by id
-        task-cli delete [TASK_ID]                   --> Delete task by id
-        task-cli mark-in-progress [TASK_ID]         --> Marks task in progress status
-        task-cli mark-done [TASK_ID]                --> Marks task as done
-        task-cli list                               --> Lists all tasks
-        task-cli list done                          --> Lists all done tasks
-        task-cli list todo                          --> Lists all todo tasks
-        task-cli list in-progress                   --> Lists all in-progress tasks
-        (Type 'quit', 'exit', or 'q' to exit.)
-    """)
+    cli_menu()
 
     while True:
         command_line = input(">>> ").strip()
@@ -145,6 +146,9 @@ def main():
         if command_line.lower() in ("quit","exit","q"):
             print("Exiting...")
             break
+        elif command_line.lower() in ("help","-help","--help",'h',"-h","--h"):
+            cli_menu()
+            continue
 
         process_commands(command_line)
 
