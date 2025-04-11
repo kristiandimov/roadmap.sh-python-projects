@@ -1,7 +1,8 @@
 from typing import Any,List,Optional
+from task import Task
 
 class TaskList(list):
-    def get_object_by_id(self,id: int) -> Optional[Any]: ##-> Optional[Any]: it will return anything or nothing
+    def get_object_by_id(self,id: int) -> Optional[Task]: ##-> Optional[Any]: it will return anything or nothing
         #Finds object with matching id
         for obj in self:
             if obj.id == id:
