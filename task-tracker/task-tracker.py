@@ -85,6 +85,7 @@ def list_tasks(args: List):
             print_tasks(tasks)
     else:
         print_tasks(task_database)
+        
 def mark_status(args: List,new_status):
     if not args:
         print("Usage: update [TASK_ID]")
@@ -151,7 +152,6 @@ def main():
             continue
 
         process_commands(command_line)
-
 
 if __name__ == "__main__":
     main()
