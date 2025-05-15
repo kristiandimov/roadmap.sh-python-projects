@@ -24,8 +24,7 @@ def print_tasks(tasks : TaskList) -> None:
 
 def check_id(id:str):
     try:
-        id = int(id[0])
-        return id
+        return int(id[0])
     except ValueError:
         print("Error: TASK_ID needs to be integer")
         return
@@ -36,11 +35,11 @@ def add_task(args: list):
         return
     
     task_name = args[0]
-    id = task_database.get_max_id()
+    id = task_database.get_next_id()
 
     task = Task(id,task_name) 
 
-    task_database.append(task)
+    task_database.add_task(task)
     print(f"Successfuly added new task --> ID: {id} task_name: {task_name}")
 
 def update_task(args: list):
@@ -69,10 +68,10 @@ def delete_task(args: List):
 
     id = check_id(args[0])
 
-    task = task_database.get_object_by_id(id)
-    task_database.remove(task)
+    task:Task = task_database.get_object_by_id(id)
+    task_database.delete_task(task)
 
-    print(f"Successfuly delete task {task.get_task_name()}")
+    print(f"Successfuly delete task {task._task_name}")
 
 def list_tasks(args: List):
     if args:
@@ -85,7 +84,7 @@ def list_tasks(args: List):
             print_tasks(tasks)
     else:
         print_tasks(task_database)
-        
+
 def mark_status(args: List,new_status):
     if not args:
         print("Usage: update [TASK_ID]")
